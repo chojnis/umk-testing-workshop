@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 
 const AdultValidator = ({ min = 4, max = 100, shouldRender = true }) => {
+  const [age, setAge] = useState('');
+  const [ageEntered, setAgeEntered] = useState(false);
+
   if (!shouldRender) {
     return null;
   }
-
-  const [age, setAge] = useState('');
-  const [ageEntered, setAgeEntered] = useState(false);
 
   const handleChange = ({ target: { value } }) => {
     if (value.match(/^\d+$/) || value === '') {
