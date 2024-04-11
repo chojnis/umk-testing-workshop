@@ -127,4 +127,30 @@ describe('AdultValidator', () => {
     //then
     expect(input.value).toBe('123');
   });
+
+  it('should change alter depends on input', async () => {
+    // given
+    render(<AdultValidator />);
+    const input = screen.getByRole('textbox', { name: 'Put your age here' });
+
+    // when
+    await userEvent.type(input, '3'); // <- symulowanie akcji użytkownika
+
+    // then
+    let alertBox = await screen.findByRole('alert');
+    expect(alertBox).toHaveTextContent('Are you really so young?');
+
+    //when
+    await userEvent.clear(input);
+
+    //then
+    expect(screen.queryByRole('alert')).not.toBeInTheDocument();
+
+    //when
+    await userEvent.type(input, '18');
+
+    //then
+    alertBox = await screen.findByRole('alert');
+    expect(alertBox).toHaveTextContent('You are grown up!');
+  });
 });
